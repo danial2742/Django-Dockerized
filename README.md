@@ -1,2 +1,2 @@
 # Django-Dockerized
-Docker wrap for django
+Dockerized wrap for django
