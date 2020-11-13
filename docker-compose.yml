@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  database:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=hello_django
+      - POSTGRES_PASSWORD=hello_django
+      - POSTGRES_DB=hello_django_dev
+  hogon:
+    build: .
+    image: hogon
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/hogon
+      - static_volume:/hogon/statics
+    expose:
+      - 8000
+    env_file:
+      - ./.env
+    depends_on:
+      - database
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/hogon/statics
+    ports:
+      - 80:80
+    depends_on:
+      - hogon
+
+volumes:
+  postgres_data:
+  static_volume:
