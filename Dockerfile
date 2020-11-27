@@ -9,6 +9,7 @@ LABEL Name="Hogon" Version="0.1.0"
 # set work directory
 RUN mkdir $HOME
 RUN mkdir $HOME/statics
+RUN mkdir $HOME/medias
 WORKDIR $HOME
 
 # set environment variables

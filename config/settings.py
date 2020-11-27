@@ -30,22 +30,35 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost 127.0.0.1 [::1
 
 
 # Application definition
-
 INSTALLED_APPS = [
+    # Django Applications
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third Party Applications
+    'rest_framework',
+    'django_filters',
+    'request',
+    # My Applications
+    'account.apps.AccountConfig',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
+    # My Middlewares For Final Responses
+    'config.middlewares.HitCalculatorMiddleware',
+    # Django middlewares
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'request.middleware.RequestMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -69,7 +82,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -104,6 +116,29 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'account.permissions.LicensePermission'
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '1/day',
+        'user': '5/minute',
+    }
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -124,3 +159,16 @@ USE_TZ = True
 
 STATIC_URL = "/statics/"
 STATIC_ROOT = os.path.join(BASE_DIR, "statics")
+
+MEDIA_URL = "/medias/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "medias")
+
+# Request Log Settings
+REQUEST_IGNORE_PATHS = (
+    r'^admin/',
+)
+
+REQUEST_IGNORE_USER_AGENTS = (
+    r'^$', # ignore requests with no user agent string set
+    r'Googlebot',
+)

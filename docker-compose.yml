@@ -10,11 +10,12 @@ services:
       - POSTGRES_DB=hello_django_dev
   hogon:
     build: .
-    image: hogon
-    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
+    # command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/hogon
       - static_volume:/hogon/statics
+      - media_volume:/hogon/medias
     expose:
       - 8000
     env_file:
@@ -25,6 +26,7 @@ services:
     build: ./nginx
     volumes:
       - static_volume:/hogon/statics
+      - media_volume:/hogon/medias
     ports:
       - 80:80
     depends_on:
@@ -33,3 +35,4 @@ services:
 volumes:
   postgres_data:
   static_volume:
+  media_volume:
