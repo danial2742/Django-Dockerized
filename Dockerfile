@@ -1,10 +1,8 @@
 # pull official base image
-FROM python:3-alpine
+FROM python:3.9-alpine
 
-ENV NAME=hogon
-ENV HOME=/hogon
-LABEL Name="Hogon" Version="0.1.0"
-
+ENV NAME=app
+ENV HOME=/app
 
 # set work directory
 RUN mkdir $HOME
