@@ -48,8 +48,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    # My Middlewares For Final Responses
-    'config.middlewares.HitCalculatorMiddleware',
+    # Custom Middlewares
+    'account.middlewares.HitCalculatorMiddleware',
     # Django middlewares
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.gzip.GZipMiddleware',
@@ -143,7 +143,7 @@ REST_FRAMEWORK = {
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'fa'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'Asia/Tehran'
 
