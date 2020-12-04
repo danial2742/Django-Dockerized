@@ -14,7 +14,7 @@ class LicenseManager(models.Manager):
 		return self.filter(user=user, type=license_type, status=True).update(used=models.F('used') + count)
 
 
-class license(models.Model):
+class License(models.Model):
 	TYPE_API = 'api'
 	TYPE_BLUE = 'blue'
 
@@ -37,3 +37,11 @@ class license(models.Model):
 
 	objects = LicenseManager()
 
+	def delete(self):
+		self.status = False
+		self.save()
+
+	class Meta:
+		constraints = [
+			models.UniqueConstraint(fields=['user', 'type'], name='Unique License For User')
+		]

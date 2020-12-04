@@ -1,4 +1,5 @@
-from account.models import license
+from account.models import License
+
 
 class HitCalculatorMiddleware:
 	def __init__(self, get_response):
@@ -14,5 +15,4 @@ class HitCalculatorMiddleware:
 
 	@staticmethod
 	def license_increment(request, count):
-		license.objects.add_used_count(request.user, license.TYPE_API, count)
-
+		License.objects.add_used_count(request.user, License.TYPE_API, count)
