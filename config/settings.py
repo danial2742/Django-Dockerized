@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'request',
+    'rest_framework_tracking',
     # My Applications
     'account.apps.AccountConfig',
     'api.apps.ApiConfig',
@@ -163,12 +164,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "statics")
 MEDIA_URL = "/medias/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "medias")
 
-# Request Log Settings
-REQUEST_IGNORE_PATHS = (
-    r'^admin/',
-)
-
-REQUEST_IGNORE_USER_AGENTS = (
-    r'^$', # ignore requests with no user agent string set
-    r'Googlebot',
-)
+# Django Request Logs Settings
+REQUEST_ONLY_ERRORS = True

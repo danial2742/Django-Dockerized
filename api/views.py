@@ -1,10 +1,12 @@
-from django.contrib.auth.models import User, Group
+from rest_framework import filters
 from rest_framework import viewsets
+from django.contrib.auth.models import User, Group
+from rest_framework_tracking.mixins import LoggingMixin
 from api.serializers import UserSerializer, GroupSerializer
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
 
-class UserViewSet(viewsets.ModelViewSet):
+
+class UserViewSet(LoggingMixin, viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
@@ -21,7 +23,8 @@ class UserViewSet(viewsets.ModelViewSet):
     search_fields = ['username', 'email']
     filterset_fields = ['username', 'email']
 
-class GroupViewSet(viewsets.ModelViewSet):
+
+class GroupViewSet(LoggingMixin, viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
