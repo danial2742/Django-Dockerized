@@ -2,12 +2,17 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
+
 class LicenseManager(models.Manager):
-	def valid_license(self, user):
+	def valid_license(self, user, license_type):
 		now = timezone.now()
-		countCriteria = models.Q(unlimited=True) | models.Q(used__lt=models.F('total'))
-		timeCriteria = models.Q(lifetime=True) | (models.Q(started_at__lt=now) & models.Q(expired_at__gt=now))
-		return self.filter(user=user, type=license.TYPE_API, status=True).filter(timeCriteria).filter(countCriteria)
+		count_criteria = models.Q(unlimited=True) | models.Q(used__lt=models.F('total'))
+		time_criteria = models.Q(lifetime=True) | (models.Q(started_at__lt=now) & models.Q(expired_at__gt=now))
+		return self.filter(user=user, type=license_type, status=True).filter(time_criteria).filter(count_criteria)
+
+	def add_used_count(self, user, license_type, count):
+		return self.filter(user=user, type=license_type, status=True).update(used=models.F('used') + count)
+
 
 class license(models.Model):
 	TYPE_API = 'api'

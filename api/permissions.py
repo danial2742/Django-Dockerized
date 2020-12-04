@@ -1,6 +1,7 @@
 from rest_framework import permissions
 from account.models import license
 
+
 class LicensePermission(permissions.BasePermission):
 	"""
 	Global permission check for blocked IPs.
@@ -8,5 +9,4 @@ class LicensePermission(permissions.BasePermission):
 	message = 'License is not available.'
 
 	def has_permission(self, request, view):
-		has_license = license.objects.valid_license(request.user).exists();
-		return has_license
+		return license.objects.valid_license(request.user, license.TYPE_API).exists()

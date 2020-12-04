@@ -12,7 +12,6 @@ class UserViewSet(LoggingMixin, viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = []
     filter_backends = [
         filters.SearchFilter,
         filters.OrderingFilter,
@@ -30,4 +29,3 @@ class GroupViewSet(LoggingMixin, viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = []
