@@ -9,6 +9,10 @@ services:
 
   app_pytorch:
     build: ./networks/pytorch
+    volumes:
+      - ./networks/pytorch/data:/home
+    depends_on:
+      - app_database
 
   app_django:
     build: .
