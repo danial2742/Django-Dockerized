@@ -9,6 +9,7 @@ services:
 
   app_pytorch:
     build: ./networks/pytorch
+    tty: true
     volumes:
       - ./networks/pytorch/data:/home
     depends_on:
