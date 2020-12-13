@@ -136,3 +136,5 @@ medias
 # Data
 networks/postgres/data
 .idea
+/.vscode/settings.json
+/.ash_history

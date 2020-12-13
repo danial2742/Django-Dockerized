@@ -9,11 +9,12 @@ services:
 
   app_pytorch:
     build: ./networks/pytorch
+    command: python3 /home/pytorch_api.py
     tty: true
     volumes:
       - ./networks/pytorch/data:/home
-    depends_on:
-      - app_database
+    expose:
+      - 23000
 
   app_django:
     build: .
